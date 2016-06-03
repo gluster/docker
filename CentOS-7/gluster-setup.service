@@ -4,7 +4,7 @@ Before=rpcbind.service
 
 [Service]
 Type=oneshot
-ExecStart=/usr/sbin/setup.sh
+ExecStart=/usr/sbin/gluster-setup.sh
 
 [Install]
 WantedBy=multi-user.target
