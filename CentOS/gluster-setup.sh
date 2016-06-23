@@ -19,7 +19,7 @@ err() {
 }
 
 main () {
-  if test "$(ls /var/lib/heketi/fstab)"
+  if [ -f /var/lib/heketi/fstab ]
   then
         mount -a --fstab /var/lib/heketi/fstab
         if [ $? -eq 1 ]
