@@ -3,6 +3,8 @@ FROM centos:latest
 MAINTAINER Humble Chirammal hchiramm@redhat.com
 
 ENV container docker
+VOLUME [ "/sys/fs/cgroup", "/etc/glusterfs", "/var/lib/glusterd", "/var/log/glusterfs" ]
+EXPOSE 2222 111 245 443 24007 2049 8080 6010 6011 6012 38465 38466 38468 38469 49152 49153 49154 49156 49157 49158 49159 49160 49161 49162
 
 RUN yum --setopt=tsflags=nodocs -y install centos-release-gluster epel-release && \
     yum --setopt=tsflags=nodocs -y install wget nfs-utils attr iputils iproute \
