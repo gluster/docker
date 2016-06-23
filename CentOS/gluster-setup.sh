@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 
 ###
 # Description: Script to move the glusterfs initial setup to bind mounted directories of Atomic Host.
@@ -12,58 +12,40 @@
 # cases as published by the Free Software Foundation.
 ###
 
+DIRS_TO_RESTORE="/etc/glusterfs /var/log/glusterfs /var/lib/glusterd"
+
+err() {
+  echo -ne $* 1>&2
+}
+
 main () {
   if test "$(ls /var/lib/heketi/fstab)"
   then
         mount -a --fstab /var/lib/heketi/fstab
         if [ $? -eq 1 ]
         then
-              echo "mount failed"
+              err "mount failed"
               exit 1
         fi
         echo "Mount Successful"
   else
         echo "heketi-fstab not found"
   fi
-  DIR_1="/etc/glusterfs"
-  DIR_2="/var/log/glusterfs"
-  DIR_3="/var/lib/glusterd"
-  var=0
-  for i in $DIR_1 $DIR_2 $DIR_3
+
+  for dir in $DIRS_TO_RESTORE
   do
-    if test "$(ls $i)"
+    if test "$(ls $dir)"
     then
-      echo "$i is not empty"
-      var=$((var+1))
+      echo "$dir is not empty"
+    else
+      if ! cp -r ${dir}_bkp/* $dir
+      then
+          err "Failed to copy $dir"
+          exit 1
+      fi
     fi
   done
 
-  if [ $var -eq 3 ]
-  then
-        exit 1
-  fi
-  
-  cp -r /etc/glusterfs_bkp/* /etc/glusterfs
-  if [ $? -eq 1 ]
-  then
-	echo "Failed to copy $DIR_1" 
-        exit 1
-  fi
-
-  cp -r /var/log/glusterfs_bkp/* /var/log/glusterfs
-  if [ $? -eq 1 ]
-  then
-	echo "Failed to copy $DIR_2"
-        exit 1
-  fi
-
-  cp -r /var/lib/glusterd_bkp/* /var/lib/glusterd
-  if [ $? -eq 1 ]
-  then
-	echo "Failed to copy $DIR_3"
-	exit 1
-  fi
- 
   echo "Script Ran Successfully"
 }
 main
