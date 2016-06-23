@@ -21,15 +21,15 @@ err() {
 main () {
   if [ -f /var/lib/heketi/fstab ]
   then
-        mount -a --fstab /var/lib/heketi/fstab
-        if [ $? -eq 1 ]
-        then
-              err "mount failed"
-              exit 1
-        fi
-        echo "Mount Successful"
+    mount -a --fstab /var/lib/heketi/fstab
+    if [ $? -eq 1 ]
+    then
+      err "mount failed"
+      exit 1
+    fi
+    echo "Mount Successful"
   else
-        echo "heketi-fstab not found"
+    echo "heketi-fstab not found"
   fi
 
   for dir in $DIRS_TO_RESTORE
@@ -40,8 +40,8 @@ main () {
     else
       if ! cp -r ${dir}_bkp/* $dir
       then
-          err "Failed to copy $dir"
-          exit 1
+        err "Failed to copy $dir"
+        exit 1
       fi
     fi
   done
