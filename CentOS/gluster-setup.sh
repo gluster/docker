@@ -35,17 +35,16 @@ enable_start_unit_if_env() {
 }
 
 main () {
-  if [ -f /var/lib/heketi/fstab ]
+  if [ -f "$FSTAB" ]
   then
-    mount -a --fstab /var/lib/heketi/fstab
-    if [ $? -eq 1 ]
+    if ! mount -a --fstab "$FSTAB"
     then
       err "mount failed"
       exit 1
     fi
     echo "Mount Successful"
   else
-    echo "heketi-fstab not found"
+    echo "fstab file $FSTAB not found"
   fi
 
   for dir in $DIRS_TO_RESTORE
