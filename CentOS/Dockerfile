@@ -31,7 +31,7 @@ RUN yum --setopt=tsflags=nodocs -y install centos-release-gluster epel-release &
     chmod 644 /etc/systemd/system/gluster-setup.service && \
     chmod 500 /usr/sbin/gluster-setup.sh && \
     systemctl disable nfs-server.service && \
-    systemctl enable ntpd.service rpcbind.service glusterd.service gluster-setup.service && \
+    systemctl enable glusterd.service gluster-setup.service && \
     echo 'root:password' | chpasswd
 
 CMD ["/usr/sbin/init"]

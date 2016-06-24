@@ -13,9 +13,25 @@
 ###
 
 DIRS_TO_RESTORE="/etc/glusterfs /var/log/glusterfs /var/lib/glusterd"
+FSTAB=${FSTAB-/var/lib/heketi/fstab}
+ENABLE_NTPD="${ENABLE_NTPD-yes}"
+ENABLE_SSHD="${ENABLE_SSHD-no}"
+ENABLE_RPCBIND="${ENABLE_RPCBIND-yes}"
 
 err() {
   echo -ne $* 1>&2
+}
+
+enable_start_unit_if_env() {
+    local unit="$1"
+    local env_var="$1"
+    case ${env_var,,} in
+        yes|y|true|t)
+            echo "Enable and start $unit"
+            systemctl enable $unit
+            systemctl start $unit
+            ;;
+    esac
 }
 
 main () {
@@ -46,6 +62,11 @@ main () {
     fi
   done
 
+  enable_start_unit_if_env rpcbind.service "$ENABLE_RPCBIND"
+  enable_start_unit_if_env ntpd.service "$ENABLE_NTPD"
+  enable_start_unit_if_env sshd.service "$ENABLE_SSHD"
+
   echo "Script Ran Successfully"
 }
+
 main
