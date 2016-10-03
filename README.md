@@ -1,4 +1,4 @@
-This repo containers dockerfiles (CentOS, Fedora, Red Hat) for GlusterFS containers.
+This repo contain dockerfiles (CentOS, Fedora, Red Hat) for GlusterFS containers.
 
 Although Setting up a glusterfs environment is a pretty simple and straight forward procedure, Gluster community do maintain docker images for gluster both in Fedora and CentOS in the docker hub for the ease of users. This blog is intented to walk the user through the steps of running GlusterFS with the help of docker.
 The community maintains docker images GlusterFS release 3.6 in both Fedora-21 and CentOS-7. The following are the steps to build the GlusterFS docker images that we maintain:
