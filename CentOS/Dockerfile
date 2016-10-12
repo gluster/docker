@@ -1,6 +1,6 @@
 FROM centos:latest
 
-MAINTAINER Humble Chirammal hchiramm@redhat.com
+MAINTAINER Humble Chirammal hchiramm@redhat.com Mohamed Ashiq mliyazud@redhat.com
 
 ENV container docker
 
@@ -15,9 +15,7 @@ rm -f /lib/systemd/system/sockets.target.wants/*initctl*; \
 rm -f /lib/systemd/system/basic.target.wants/*;\
 rm -f /lib/systemd/system/anaconda.target.wants/*;
 
-RUN yum --setopt=tsflags=nodocs -y install wget nfs-utils attr iputils iproute centos-release-gluster
-
-RUN yum --setopt=tsflags=nodocs -y install openssh-server openssh-clients ntp rsync tar cronie sudo xfsprogs glusterfs glusterfs-server glusterfs-geo-replication;yum clean all;
+RUN yum --setopt=tsflags=nodocs -y install centos-release-gluster; yum --setopt=tsflags=nodocs -y install wget nfs-utils attr iputils iproute centos-release-gluster openssh-server openssh-clients ntp rsync tar cronie sudo xfsprogs glusterfs glusterfs-server glusterfs-geo-replication;yum clean all;
 
 RUN sed -i '/Defaults    requiretty/c\#Defaults    requiretty' /etc/sudoers
 
