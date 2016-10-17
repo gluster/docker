@@ -1,6 +1,6 @@
 FROM centos:latest
 
-MAINTAINER Humble Chirammal hchiramm@redhat.com
+MAINTAINER Humble Chirammal <hchiramm@redhat.com> Mohamed Ashiq Liyazudeen <mliyazud@redhat.com>
 
 ENV container docker
 
