@@ -1,2 +1,2 @@
-# Set Gluster volumes to be used by gluster-swift service
-GLUSTER_VOLUMES='tv1'
+# Set Gluster volumes to be used by gluster-object service
+GLUSTER_VOLUMES="tv1"

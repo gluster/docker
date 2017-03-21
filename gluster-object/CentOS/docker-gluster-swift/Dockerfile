@@ -37,9 +37,6 @@ RUN git clone git://review.gluster.org/gluster-swift /tmp/gluster-swift && \
 # Gluster volumes will be mounted *under* this directory.
 VOLUME /mnt/gluster-object
 
-# volumes to be exposed as object storage is present in swift-volumes file
-COPY etc/sysconfig/swift-volumes /etc/sysconfig/
-
 # Copy systemd scripts
 COPY swift-gen-builders.service /lib/systemd/system/
 COPY swift-proxy.service /lib/systemd/system/
@@ -49,6 +46,13 @@ COPY swift-object.service /lib/systemd/system/
 
 # Replace openstack swift conf files with local gluster-swift ones
 COPY etc/swift/* /etc/swift/
+
+# To update volume name used by swift-gen-builders service
+COPY update_gluster_vol.sh /usr/local/bin/update_gluster_vol.sh
+RUN chmod +x /usr/local/bin/update_gluster_vol.sh
+
+# volumes to be exposed as object storage is present in swift-volumes file
+COPY etc/sysconfig/swift-volumes /etc/sysconfig/swift-volumes
 
 # The proxy server listens on port 8080
 EXPOSE 8080
@@ -62,4 +66,6 @@ RUN systemctl enable swift-proxy.service
 RUN systemctl enable swift-account.service
 RUN systemctl enable swift-container.service
 RUN systemctl enable swift-object.service
+
+ENTRYPOINT ["/usr/local/bin/update_gluster_vol.sh"]
 CMD ["/usr/sbin/init"]
