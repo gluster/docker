@@ -15,7 +15,7 @@ rm -f /lib/systemd/system/sockets.target.wants/*initctl*; \
 rm -f /lib/systemd/system/basic.target.wants/*;\
 rm -f /lib/systemd/system/anaconda.target.wants/*;
 
-RUN yum --setopt=tsflags=nodocs -y install wget nfs-utils attr iputils iproute centos-release-gluster
+RUN yum --setopt=tsflags=nodocs -y install wget nfs-utils attr iputils iproute centos-release-gluster310
 
 RUN yum --setopt=tsflags=nodocs -y install openssh-server openssh-clients ntp rsync tar cronie sudo xfsprogs glusterfs glusterfs-server glusterfs-geo-replication;yum clean all;
 
