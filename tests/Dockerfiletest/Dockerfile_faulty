@@ -1,0 +1,10 @@
+
+MAINTAINER Humble Chirammal hchiramm@redhat.com Mohamed Ashiq Liyazudeen mliyazud@redhat.com
+
+LABEL Name="faulty"
+
+RUNCMD 'echo "fail"'
+
+EXPOSE 3333
+
+CMD ["/usr/sbin/init"]
