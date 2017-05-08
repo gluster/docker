@@ -9,6 +9,16 @@ MAINTAINER Prashanth Pai <ppai@redhat.com>
 # Install gluster-swift dependencies. To be removed when RPMs become available.
 # Clean downloaded packages and index
 
+LABEL architecture="x86_64" \
+      name="gluster/gluster-swift" \
+      version="kilo" \
+      vendor="Red Hat, Inc" \
+      summary="This image has a running gluster-swift service ( centos 7 + gluster-swift)" \
+      io.k8s.display-name="gluster-swift based on centos 7" \
+      io.k8s.description="gluster-swift image is based on centos image which enables files and directories created on GlusterFS to be accessed as objects via the Swift and S3 API." \
+      description="gluster-swift image is based on centos image which enables files and directories created on GlusterFS to be accessed as objects via the Swift and S3 API." \
+      io.openshift.tags="gluster,glusterfs,gluster-swift"
+
 RUN yum -v --setopt=tsflags=nodocs -y update && \
     yum -v --setopt=tsflags=nodocs -y install \
         centos-release-openstack-kilo \

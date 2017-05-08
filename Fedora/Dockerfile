@@ -1,10 +1,21 @@
 FROM fedora
 
-MAINTAINER Humble Chirammal hchiramm@redhat.com
+MAINTAINER Humble Chirammal hchiramm@redhat.com Mohamed Ashiq Liyazudeen mliyazud@redhat.com
 
 ENV container docker
 
-RUN yum -y update && yum clean all
+LABEL architecture="x86_64" \
+      name="gluster/gluster-fedora" \
+      version="3.10" \
+      vendor="Red Hat, Inc" \
+      summary="This image has a running glusterfs service ( Fedora + Gluster 3.10)" \
+      io.k8s.display-name="Gluster 3.10 based on Fedora" \
+      io.k8s.description="Gluster Image is based on Fedora Image which is a scalable network filesystem. Using common off-the-shelf hardware, you can create large, distributed storage solutions for media streaming, data analysis, and other data- and bandwidth-intensive tasks." \
+      description="Gluster Image is based on fedora Image which is a scalable network filesystem. Using common off-the-shelf hardware, you can create large, distributed storage solutions for media streaming, data analysis, and other data- and bandwidth-intensive tasks." \
+      io.openshift.tags="gluster,glusterfs,gluster-fedora"
+
+
+RUN yum -y update && yum clean all;
 
 RUN yum -y install systemd; yum clean all; \
 (cd /lib/systemd/system/sysinit.target.wants/; for i in *; do [ $i == systemd-tmpfiles-setup.service ] || rm -f $i; done); \

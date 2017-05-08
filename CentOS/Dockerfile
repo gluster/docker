@@ -1,10 +1,20 @@
-FROM centos:latest
+FROM centos:7
 
 MAINTAINER Humble Chirammal hchiramm@redhat.com Mohamed Ashiq Liyazudeen mliyazud@redhat.com
 
 ENV container docker
 
-RUN yum --setopt=tsflags=nodocs -y update; yum clean all;
+LABEL architecture="x86_64" \
+      name="gluster/gluster-centos" \
+      version="3.10" \
+      vendor="Red Hat, Inc" \
+      summary="This image has a running glusterfs service ( CentOS 7 + Gluster 3.10)" \
+      io.k8s.display-name="Gluster 3.10 based on CentOS 7" \
+      io.k8s.description="Gluster Image is based on CentOS Image which is a scalable network filesystem. Using common off-the-shelf hardware, you can create large, distributed storage solutions for media streaming, data analysis, and other data- and bandwidth-intensive tasks." \
+      description="Gluster Image is based on CentOS Image which is a scalable network filesystem. Using common off-the-shelf hardware, you can create large, distributed storage solutions for media streaming, data analysis, and other data- and bandwidth-intensive tasks." \
+      io.openshift.tags="gluster,glusterfs,glusterfs-centos"
+
+RUN yum --setopt=tsflags=nodocs -y update; yum install centos-release-gluster; yum clean all;
 
 RUN (cd /lib/systemd/system/sysinit.target.wants/; for i in *; do [ $i == systemd-tmpfiles-setup.service ] || rm -f $i; done); \
 rm -f /lib/systemd/system/multi-user.target.wants/*;\
@@ -15,9 +25,7 @@ rm -f /lib/systemd/system/sockets.target.wants/*initctl*; \
 rm -f /lib/systemd/system/basic.target.wants/*;\
 rm -f /lib/systemd/system/anaconda.target.wants/*;
 
-RUN yum --setopt=tsflags=nodocs -y install wget nfs-utils attr iputils iproute centos-release-gluster
-
-RUN yum --setopt=tsflags=nodocs -y install openssh-server openssh-clients ntp rsync tar cronie sudo xfsprogs glusterfs glusterfs-server glusterfs-geo-replication;yum clean all;
+RUN yum --setopt=tsflags=nodocs -y install wget nfs-utils attr iputils iproute openssh-server openssh-clients ntp rsync tar cronie sudo xfsprogs glusterfs glusterfs-server glusterfs-geo-replication;yum clean all;
 
 RUN sed -i '/Defaults    requiretty/c\#Defaults    requiretty' /etc/sudoers
 
