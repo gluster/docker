@@ -1,84 +1,80 @@
-This repo contains dockerfiles (CentOS, Fedora, Red Hat) for GlusterFS containers namely server, client and object.
+This repo contains dockerfiles (CentOS and Fedora) for GlusterFS containers namely server, client and object.
 
 ## Gluster Server Docker container:
 
-Although Setting up a glusterfs environment is a pretty simple and straight forward procedure, Gluster community do maintain docker images for gluster both in Fedora and CentOS in the docker hub for the ease of users. This blog is intented to walk the user through the steps of running GlusterFS with the help of docker.
-The community maintains docker images of GlusterFS release in both Fedora and CentOS distributions. The following are the steps to build the GlusterFS docker images that we maintain:
+Although Setting up a glusterfs environment is a pretty simple and straight forward procedure, Gluster community do maintain docker images of gluster both Fedora and CentOS as base image in the docker hub for the ease of users. The community maintains docker images of GlusterFS release in both Fedora and CentOS distributions. 
+
+The following are the steps to run the GlusterFS docker images that we maintain:
+
 To pull the docker image from the docker hub run the following command:
 
 ### Fedora:
 
 ~~~
 $ docker pull gluster/gluster-fedora
-
 ~~~
 
 ### CentOS:
 
 ~~~
 $ docker pull gluster/gluster-centos
-
 ~~~
-This will fetch and build the docker image for you from the docker hub.
-Alternatively, one could build the image from the Dockerfile directly. For this, one should pull the Gluster-Fedora Dockerfile from the source repository and build the image using that. For getting the source, One can make use of git:
+
+This will pull the glusterfs docker image from the docker hub.
+Alternatively, one could build the image from the Dockerfile directly. For this, clone the gluster-containers source repository and build the image using Dockerfiles in the repository. For getting the source, One can make use of git:
 
 ~~~
 $ git clone git@github.com:gluster/gluster-containers.git
 ~~~
 
-This repository consists of Dockerfiles for GlusterFS built in both CentOS and Fedora distributions. Once you clone the repository, to build the image, run the following commands:
+This repository consists of Dockerfiles for GlusterFS to build on both CentOS and Fedora distributions. Once you clone the repository, to build the image, run the following commands:
+
 For Fedora,
 
 ~~~
 $ docker build -t gluster-fedora docker/Fedora/Dockerfile
-
 ~~~
 For CentOS,
 ~~~
 $ docker build -t gluster-centos docker/CentOS/Dockerfile
 ~~~
-This command will build the docker image from the Dockerfile you just cloned and will be assigned the name gluster-fedora or gluster-centos respectively. ‘-t’ option is used to give a name to the image we are about the build.
+This command will build the docker image from the Dockerfile and will be assigned the name gluster-fedora or gluster-centos respectively. ‘-t’ option is used to give a name to the image we built.
 
-Once the image is built in either of the above two steps, we can now run the container with gluster daemon running. 
+Once the image is built in either of the above two steps, now we can run the container with gluster daemon running. 
 
-Before this, ensure the following directories are created in the system from where docker is launched:
- -  /etc/glusterfs
+Before this, ensure the following directories are created on the host where docker is running:
+ - /etc/glusterfs
  - /var/lib/glusterd
  - /var/log/glusterfs
 Also, ensure they are empty to avoid any conflicts.
 Now run the following command:
 
 ~~~
-
 $ docker run -v /etc/glusterfs:/etc/glusterfs:z -v /var/lib/glusterd:/var/lib/glusterd:z -v /var/log/glusterfs:/var/log/glusterfs:z -v /sys/fs/cgroup:/sys/fs/cgroup:ro -d --privileged=true --net=host -v /dev/:/dev gluster/gluster-centos
 ~~~
 
 ( is either gluster-fedora or gluster-centos as per the configurations so far)
 
 Where:
-
+~~~
         --net=host        ( Optional: This option brings maximum network throughput for your storage container)
 
         --privileged=true ( If you are exposing the `/dev/` tree of host to the container to create bricks from the container)
-        
-        
+~~~
 Bind mounting of following directories enables:
-
+~~~
         `/var/lib/glusterd`     : To make gluster metadata persistent in the host.
         `/var/log/glusterfs`    : To make gluster logs persistent in the host.
         `/etc/glusterfs`        : To make gluster configuration persistent in the host.
+~~~
 
-
-
-
-Systemd has been installed and is running in the container we maintain. 
+Systemd has been installed and is running in the container we maintain.
 
 Once issued, this will boot up the Fedora or CentOS system and you have a container started with glusterd running in it.
 
 ##### Verify the container is running successfully:
 
 ~~~
-
 $ docker ps -a
 
 CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES
@@ -115,7 +111,6 @@ root 159 0.0 0.0 112992 2224 pts/0 S+ 06:22 0:00 grep --color=auto glusterd
 Number of Peers: 0
 
 -bash-4.3# gluster --version
-
 ~~~
 That’s it!
 
@@ -127,7 +122,6 @@ Additional Ref# https://goo.gl/3031Mm
 ### To pull gluster-object:
 ~~~
 $ docker pull gluster/gluster-object
-
 ~~~
 
 ### To run gluster-object container:
@@ -149,8 +143,7 @@ GLUSTER_VOLUMES='tv1'
 Where tv1 is the volume name.
 
 ~~~
-$ docker run -d --privileged  -v /sys/fs/cgroup/:/sys/fs/cgroup/:ro -p 8080:8080 -v /mnt/gluster-object:/mnt/gluster-object    gluster/gluster-object
-
+$ docker run -d --privileged  -v /sys/fs/cgroup/:/sys/fs/cgroup/:ro -p 8080:8080 -v /mnt/gluster-object:/mnt/gluster-object  gluster/gluster-object
 ~~~
 
 Now, We can get/put objects into the gluster volume, using the gluster-object Docker container.
