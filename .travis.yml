@@ -7,14 +7,26 @@ addons:
     packages:
     - shellcheck
 
+services:
+  - docker
+
 before_install:
-- sudo apt-get install -y -qq npm
-- sudo add-apt-repository -y ppa:chris-lea/node.js
-- sudo apt-get -y update
-- sudo apt-get install -y nodejs
-- sudo npm config set registry http://registry.npmjs.org/
-- sudo npm install -g npm
-- sudo npm install -g dockerfile_lint
+- sudo apt-get update
+- sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-engine
+- docker build -t gluster/client ./gluster-client/
+- docker run -it --name client gluster/client rpm -qa | grep gluster
+- docker build -t gluster/centos ./CentOS/
+- docker run -d --name gcentos --privileged gluster/centos
+- sleep 10
+- docker exec -it gcentos systemctl is-active glusterd
+- docker build -t gluster/fedora ./Fedora/
+- docker run -d --name gfedora --privileged -v /sys/fs/cgroup:/sys/fs/cgroup:ro gluster/fedora
+- sleep 10
+- docker exec -it gfedora systemctl is-active glusterd
+- docker build -t gluster/swift ./gluster-object/CentOS/docker-gluster-swift/
+- docker run -d --name swift --privileged -v /sys/fs/cgroup:/sys/fs/cgroup:ro -e GLUSTER_VOLUMES=vol gluster/swift
+- sleep 10
+- docker exec -it swift systemctl is-active swift-object
 
 script:
 - make test

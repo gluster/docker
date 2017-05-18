@@ -22,10 +22,14 @@ Install with
 * `dnf install ShellCheck`, or
 * `apt-get install shellcheck`
 
+## Travis CI
+* dockerfile_lint has dependency problem, hence disabling it.
+* Builds the docker image and does a basic test.
+* Tests the shell script.
+
 ## TODOs
 
 * Write more tests
-* More elaborate basic tests - docker build, docker run of basic commands.
 * Write full functional tests to be run in vms.
  (like the atomic vagrant environment)
 
