@@ -70,12 +70,12 @@ EXPOSE 8080
 RUN echo 'root:password' | chpasswd
 VOLUME [ "/sys/fs/cgroup" ]
 
-RUN systemctl enable swift-gen-builders.service
-RUN systemctl enable memcached.service
-RUN systemctl enable swift-proxy.service
-RUN systemctl enable swift-account.service
-RUN systemctl enable swift-container.service
-RUN systemctl enable swift-object.service
+RUN systemctl enable swift-gen-builders.service;\
+systemctl enable memcached.service;\
+systemctl enable swift-proxy.service;\
+systemctl enable swift-account.service;\
+systemctl enable swift-container.service;\
+systemctl enable swift-object.service;
 
 ENTRYPOINT ["/usr/local/bin/update_gluster_vol.sh"]
 CMD ["/usr/sbin/init"]
