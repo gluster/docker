@@ -1,13 +1,13 @@
 
-# docker-gluster-swift
-docker-gluster-swift is to provide object interface for a Gluster volume.
+# docker-gluster-s3
+docker-gluster-s3 is to provide object interface for a Gluster volume.
 
-Let us see how to run gluster-swift inside a docker container.
+Let us see how to run gluster-s3 inside a docker container.
 
 ## Building
 
 ```bash
-# docker build --rm --tag gluster-swift .
+# docker build --rm --tag gluster-s3 .
 ```
 
 ## Running
@@ -30,7 +30,7 @@ Where tv1 is the volume name.
 **Example:**
 
 ```bash
-# docker run -d --privileged  -v /sys/fs/cgroup/:/sys/fs/cgroup/:ro -p 8080:8080 -v /mnt/gluster-object:/mnt/gluster-object    -e GLUSTER_VOLUMES="tv1" gluster-swift
+# docker run -d --privileged  -v /sys/fs/cgroup/:/sys/fs/cgroup/:ro -p 8080:8080 -v /mnt/gluster-object:/mnt/gluster-object -e GLUSTER_VOLUMES="tv1" gluster-s3
 ```
 
 If you have selinux set to enforced on the host machine, refer to the
@@ -63,7 +63,7 @@ Assuming you have conf files and ring files present at `/tmp/swift` on the
 machine, you can spawn the container as follows:
 
 ```bash
-# docker run -d -p 8080:8080 -v /tmp/swift:/etc/swift -v /mnt/gluster-object:/mnt/gluster-object prashanthpai/gluster-swift:dev
+# docker run -d -p 8080:8080 -v /tmp/swift:/etc/swift -v /mnt/gluster-object:/mnt/gluster-object gluster-s3
 ```
 
 If the host machine has SELinux set to enforced:
@@ -106,4 +106,4 @@ mount -t glusterfs -o selinux,context="system_u:object_r:svirt_sandbox_file_t:s0
 
 ### TODO
 
-* Install gluster-swift from RPMs. (Currently installed from source)
+* Install gluster-s3 from RPMs. (Currently installed from source)
