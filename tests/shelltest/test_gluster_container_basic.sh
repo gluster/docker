@@ -35,12 +35,12 @@ testit "test shellcheck ${BASE_DIR}/CentOS/gluster-setup.sh" \
         test_shellcheck ${BASE_DIR}/CentOS/gluster-setup.sh \
         || ((failed++))
 
-testit "test script syntax ${BASE_DIR}/gluster-object/CentOS/docker-gluster-swift/update_gluster_vol.sh" \
-        test_syntax ${BASE_DIR}/gluster-object/CentOS/docker-gluster-swift/update_gluster_vol.sh \
+testit "test script syntax ${BASE_DIR}/gluster-s3object/CentOS/docker-gluster-s3/update_gluster_vol.sh" \
+        test_syntax ${BASE_DIR}/gluster-s3object/CentOS/docker-gluster-s3/update_gluster_vol.sh \
         || ((failed++))
 
-testit "test shellcheck ${BASE_DIR}/gluster-object/CentOS/docker-gluster-swift/update_gluster_vol.sh" \
-        test_shellcheck ${BASE_DIR}/gluster-object/CentOS/docker-gluster-swift/update_gluster_vol.sh \
+testit "test shellcheck ${BASE_DIR}/gluster-s3object/CentOS/docker-gluster-s3/update_gluster_vol.sh" \
+        test_shellcheck ${BASE_DIR}/gluster-s3object/CentOS/docker-gluster-s3/update_gluster_vol.sh \
         || ((failed++))
 
 
