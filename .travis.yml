@@ -23,10 +23,10 @@ before_install:
 - docker run -d --name gfedora --privileged -v /sys/fs/cgroup:/sys/fs/cgroup:ro gluster/fedora
 - sleep 10
 - docker exec -it gfedora systemctl is-active glusterd
-- docker build -t gluster/swift ./gluster-object/CentOS/docker-gluster-swift/
-- docker run -d --name swift --privileged -v /sys/fs/cgroup:/sys/fs/cgroup:ro -e GLUSTER_VOLUMES=vol gluster/swift
+- docker build -t gluster/s3 ./gluster-s3object/CentOS/docker-gluster-s3/
+- docker run -d --name s3 --privileged -v /sys/fs/cgroup:/sys/fs/cgroup:ro -e GLUSTER_VOLUMES=vol gluster/s3
 - sleep 10
-- docker exec -it swift systemctl is-active swift-object
+- docker exec -it s3 systemctl is-active swift-object
 
 script:
 - make test
