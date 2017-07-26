@@ -54,6 +54,7 @@ COPY swift-proxy.service /lib/systemd/system/
 COPY swift-account.service /lib/systemd/system/
 COPY swift-container.service /lib/systemd/system/
 COPY swift-object.service /lib/systemd/system/
+COPY swift-adduser.service /lib/systemd/system/
 
 # Replace openstack swift conf files with local gluster-swift ones
 COPY etc/swift/* /etc/swift/
@@ -61,6 +62,9 @@ COPY etc/swift/* /etc/swift/
 # To update volume name used by swift-gen-builders service
 COPY update_gluster_vol.sh /usr/local/bin/update_gluster_vol.sh
 RUN chmod +x /usr/local/bin/update_gluster_vol.sh
+
+COPY gluster-swift-add-user /usr/local/bin/gluster-swift-add-user
+RUN chmod +x /usr/local/bin/gluster-swift-add-user
 
 # volumes to be exposed as object storage is present in swift-volumes file
 COPY etc/sysconfig/swift-volumes /etc/sysconfig/swift-volumes
@@ -72,11 +76,12 @@ RUN echo 'root:password' | chpasswd
 VOLUME [ "/sys/fs/cgroup" ]
 
 RUN systemctl enable swift-gen-builders.service;\
-systemctl enable memcached.service;\
-systemctl enable swift-proxy.service;\
-systemctl enable swift-account.service;\
-systemctl enable swift-container.service;\
-systemctl enable swift-object.service;
+ systemctl enable memcached.service;\
+ systemctl enable swift-proxy.service;\
+ systemctl enable swift-account.service;\
+ systemctl enable swift-container.service;\
+ systemctl enable swift-object.service;\
+ systemctl enable swift-adduser.service;
 
 ENTRYPOINT ["/usr/local/bin/update_gluster_vol.sh"]
 CMD ["/usr/sbin/init"]

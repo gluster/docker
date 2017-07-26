@@ -1,2 +1,4 @@
 # Set Gluster volumes to be used by gluster-object service
 GLUSTER_VOLUMES="tv1"
+GLUSTER_USER="admin"
+GLUSTER_PASSWORD="redhat"

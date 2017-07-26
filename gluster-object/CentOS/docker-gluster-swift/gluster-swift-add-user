@@ -1,0 +1,13 @@
+#!/bin/bash
+if [ "$#" -lt 3 ]; then
+	echo "Incorrect args. invoke gluster-swift-add-user $GLUSTER_USER $GLUSTER_PASSWORD $GLUSTER_VOLUMES"
+	exit 1
+else
+	GLUSTER_USER=$1
+	GLUSTER_PASSWORD=$2
+	GLUSTER_VOLUMES=$(echo $3 | cut -d" " -f1)
+	sleep 5
+	gswauth-prep -A http://0.0.0.0:8080/auth -K gswauthkey
+        gswauth-add-account -K gswauthkey $GLUSTER_VOLUMES
+	gswauth-add-user -K gswauthkey -a $GLUSTER_VOLUMES $GLUSTER_USER $GLUSTER_PASSWORD
+fi

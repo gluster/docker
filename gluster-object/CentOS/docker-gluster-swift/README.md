@@ -30,7 +30,7 @@ Where tv1 is the volume name.
 **Example:**
 
 ```bash
-# docker run -d --privileged  -v /sys/fs/cgroup/:/sys/fs/cgroup/:ro -p 8080:8080 -v /mnt/gluster-object:/mnt/gluster-object    -e GLUSTER_VOLUMES="tv1" gluster-swift
+# docker run -d --privileged  -v /sys/fs/cgroup/:/sys/fs/cgroup/:ro -p 8080:8080 -v /mnt/gluster-object:/mnt/gluster-object    -e GLUSTER_VOLUMES="tv1" -e GLUSTER_USER="admin" -e GLUSTER_PASSWORD="redhat" gluster-swift
 ```
 
 If you have selinux set to enforced on the host machine, refer to the

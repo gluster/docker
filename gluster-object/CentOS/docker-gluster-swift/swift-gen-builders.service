@@ -5,7 +5,7 @@ Before=memcached.service
 [Service]
 Type=oneshot
 EnvironmentFile=-/etc/sysconfig/swift-volumes
-ExecStart=/usr/bin/gluster-swift-gen-builders $GLUSTER_VOLUMES
+ExecStart=/usr/bin/gluster-swift-gen-builders $GLUSTER_VOLUMES gsmetadata
 
 [Install]
 WantedBy=multi-user.target

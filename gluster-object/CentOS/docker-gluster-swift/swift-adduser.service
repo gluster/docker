@@ -1,0 +1,11 @@
+[Unit]
+Description=Swift Add User
+After=swift-object.service
+
+[Service]
+Type=oneshot
+EnvironmentFile=-/etc/sysconfig/swift-volumes
+ExecStart=/usr/local/bin/gluster-swift-add-user $GLUSTER_USER $GLUSTER_PASSWORD $GLUSTER_VOLUMES
+
+[Install]
+WantedBy=multi-user.target
