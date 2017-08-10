@@ -23,10 +23,12 @@ rm -f /lib/systemd/system/sockets.target.wants/*udev*; \
 rm -f /lib/systemd/system/sockets.target.wants/*initctl*; \
 rm -f /lib/systemd/system/basic.target.wants/*;\
 rm -f /lib/systemd/system/anaconda.target.wants/*;\
-yum --setopt=tsflags=nodocs -y install nfs-utils attr iputils iproute openssh-server openssh-clients ntp rsync tar cronie sudo xfsprogs glusterfs glusterfs-server glusterfs-geo-replication;yum clean all; \
+yum install --setopt=tsflags=nodocs -y https://download.gluster.org/pub/gluster/gluster-block/LATEST/fedora/25/x86_64/gluster-block-0.2.1-1.x86_64.rpm; \
+yum --setopt=tsflags=nodocs -y install wget nfs-utils attr iputils iproute openssh-server openssh-clients ntp rsync tar cronie sudo xfsprogs gluster-block glusterfs glusterfs-server glusterfs-geo-replication;yum clean all; \
 sed -i '/Defaults    requiretty/c\#Defaults    requiretty' /etc/sudoers; \
 sed -i '/Port 22/c\Port 2222' /etc/ssh/sshd_config; \
 sed -i 's/Requires\=rpcbind\.service//g' /usr/lib/systemd/system/glusterd.service; \
+sed -i 's/rpcbind\.service //g' /usr/lib/systemd/system/gluster-blockd.service; \
 sed -i 's/rpcbind\.service/gluster-setup\.service/g' /usr/lib/systemd/system/glusterd.service; \
 sed -i 's/ENV{DM_UDEV_DISABLE_OTHER_RULES_FLAG}=="1", ENV{SYSTEMD_READY}="0"/ENV{DM_UDEV_DISABLE_OTHER_RULES_FLAG}=="1", GOTO="systemd_end"/g' /usr/lib/udev/rules.d/99-systemd.rules; \
 mkdir -p /etc/glusterfs_bkp /var/lib/glusterd_bkp /var/log/glusterfs_bkp;\
@@ -45,6 +47,7 @@ systemctl disable nfs-server.service; \
 systemctl mask getty.target; \
 systemctl enable ntpd.service; \
 systemctl enable glusterd.service; \
+systemctl enable gluster-blockd.service; \
 systemctl enable gluster-setup.service;
 
 EXPOSE 2222 111 245 443 24007 2049 8080 6010 6011 6012 38465 38466 38468 38469 49152 49153 49154 49156 49157 49158 49159 49160 49161 49162
