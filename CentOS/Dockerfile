@@ -50,11 +50,12 @@ systemctl enable gluster-setup.service;
 RUN yum --setopt=tsflags=nodocs -y install epel-release;
 ADD tendrl/tendrl-release-epel-7.repo /etc/yum.repos.d/tendrl-release-epel-7.repo
 ADD tendrl/tendrl-dependencies-epel-7.repo /etc/yum.repos.d/tendrl-dependencies-epel-7.repo
-RUN yum --setopt=tsflags=nodocs -y install tendrl-node-agent;
+RUN yum --setopt=tsflags=nodocs -y install tendrl-node-agent tendrl-collectd-selinux  tendrl-selinux;
 
 RUN systemctl enable tendrl-node-agent
 RUN sed -i.bak '/^etcd_connection/s/:.*/:\ tendrlserver/' /etc/tendrl/node-agent/node-agent.conf.yaml
 RUN sed -i.bak '/^graphite_host/s/:.*/:\ tendrlserver/' /etc/tendrl/node-agent/node-agent.conf.yaml
+RUN sed -i.bak '/^SELINUX\b/s/=.*/=permissive/'  /etc/selinux/config
 
 EXPOSE 2222 111 245 443 24007 2049 8080 6010 6011 6012 38465 38466 38468 38469 49152 49153 49154 49156 49157 49158 49159 49160 49161 49162 2379 2003
 
