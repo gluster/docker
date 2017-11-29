@@ -1,4 +1,4 @@
-FROM fedora
+FROM registry.fedoraproject.org/fedora:latest
 
 ENV NAME="gluster-fedora" \
     DESC="GlusterFS on Fedora" \
@@ -14,7 +14,7 @@ LABEL name="$REPO/$NAME" \
       architecture="$ARCH" \
       vendor="Red Hat, Inc" \
       summary="$DESC" \
-      usage="docker run -d $REPO/$NAME" \
+      usage="docker run -d -P --tmpfs /run --tmpfs /tmp -v /sys/fs/cgroup:/sys/fs/cgroup $REPO/$NAME" \
       io.k8s.display-name="$DESC" \
       io.k8s.description="GlusterFS is a distributed and scalable network filesystem. Using common, off-the-shelf hardware you can create large, distributed storage solutions for media streaming, data analysis, and other data- and bandwidth-intensive tasks." \
       io.openshift.tags="gluster,glusterfs,gluster-fedora" \
@@ -22,6 +22,8 @@ LABEL name="$REPO/$NAME" \
       maintainer="Jose A. Rivera <jarrpa@redhat.com>, Humble Chirammal <hchiramm@redhat.com>"
 
 VOLUME [ "/sys/fs/cgroup/" ]
+
+ADD https://github.com/gluster/gluster-containers/blob/master/README.md /README.md
 
 COPY gluster-setup.sh gluster-brickmultiplex.service gluster-brickmultiplex.sh gluster-setup.service /
 
