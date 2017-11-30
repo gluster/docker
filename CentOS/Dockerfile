@@ -47,11 +47,12 @@ systemctl enable ntpd.service; \
 systemctl enable glusterd.service; \
 systemctl enable gluster-setup.service;
 
-RUN yum --setopt=tsflags=nodocs -y install epel-release;
-ADD tendrl/tendrl-release-epel-7.repo /etc/yum.repos.d/tendrl-release-epel-7.repo
-ADD tendrl/tendrl-dependencies-epel-7.repo /etc/yum.repos.d/tendrl-dependencies-epel-7.repo
-RUN yum --setopt=tsflags=nodocs -y install tendrl-node-agent tendrl-collectd-selinux  tendrl-selinux;
-RUN yum --setopt=tsflags=nodocs -y install tendrl-gluster-integration.noarch;
+COPY tendrl/tendrl-release-epel-7.repo /etc/yum.repos.d/tendrl-release-epel-7.repo
+COPY tendrl/tendrl-dependencies-epel-7.repo /etc/yum.repos.d/tendrl-dependencies-epel-7.repo
+RUN yum --setopt=tsflags=nodocs -y install epel-release; \
+yum --setopt=tsflags=nodocs -y install tendrl-node-agent tendrl-collectd-selinux  tendrl-selinux; \
+yum --setopt=tsflags=nodocs -y install tendrl-gluster-integration.noarch; \
+yum clean all;
 
 RUN systemctl enable tendrl-node-agent
 RUN sed -i.bak '/^etcd_connection/s/:.*/:\ tendrlserver/' /etc/tendrl/node-agent/node-agent.conf.yaml
