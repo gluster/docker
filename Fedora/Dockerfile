@@ -52,6 +52,7 @@ RUN dnf -y update && \
     chmod 644 /etc/systemd/system/gluster-brickmultiplex.service && \
     chmod 500 /usr/sbin/gluster-brickmultiplex.sh && \
     systemctl mask getty.target && \
+    systemctl mask systemd-sysctl.service && \
     systemctl disable systemd-udev-trigger.service && \
     systemctl disable systemd-udevd.service && \
     systemctl disable nfs-server.service && \
