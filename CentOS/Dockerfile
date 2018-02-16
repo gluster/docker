@@ -6,7 +6,7 @@ ENV container docker
 
 LABEL architecture="x86_64" \
       name="gluster/gluster-centos" \
-      version="3.12" \
+      version="3.10" \
       vendor="CentOS Community" \
       summary="This image has a running glusterfs service ( CentOS 7 + Gluster 3.10)" \
       io.k8s.display-name="Gluster 3.10 based on CentOS 7" \
