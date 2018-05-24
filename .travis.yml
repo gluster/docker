@@ -17,8 +17,10 @@ before_install:
 - sudo apt-get -y install docker-ce
 - docker build -t gluster/client ./gluster-client/
 - docker run -it --name client gluster/client rpm -qa | grep gluster
+- sudo modprobe target_core_user
+- sudo apt-get -y install rpcbind
 - docker build -t gluster/centos ./CentOS/
-- docker run -d --name gcentos --privileged gluster/centos
+- docker run -d --name gcentos --privileged --net=host gluster/centos
 - sleep 10
 - docker exec -it gcentos systemctl is-active glusterd
 - docker stop gcentos
@@ -29,6 +31,7 @@ before_install:
 - docker run -d --name gcentos -v /home/centos-glusterd:/var/lib/glusterd/:z -v /home/centos-gluster-etc:/etc/glusterfs:z -v /home/centos-gluster-log:/var/log/glusterfs --privileged gluster/centos
 - sleep 10
 - docker exec -it gcentos systemctl is-active glusterd
+- docker exec -it gcentos systemctl status gluster-blockd
 - docker stop gcentos
 - docker rm gcentos
 - docker build -t gluster/fedora ./Fedora/
