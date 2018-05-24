@@ -14,9 +14,10 @@ LABEL architecture="x86_64" \
 
 ENV container docker
 
-RUN dnf --setopt=tsflags=nodocs -y update; dnf --setopt=tsflags=nodocs -y install wget nfs-utils attr iputils iproute; \
-sed -i "s/LANG/\#LANG/g" /etc/locale.conf;\
-dnf install -y glusterfs-fuse;\
-dnf clean all;
+RUN sed -i "s/LANG/\#LANG/g" /etc/locale.conf
+RUN dnf --setopt=tsflags=nodocs -y update &&\
+dnf --setopt=tsflags=nodocs -y install wget nfs-utils attr iputils iproute &&\
+dnf install -y glusterfs-fuse &&\
+dnf clean all
 
 CMD ["/bin/bash"]

@@ -2,7 +2,7 @@
 
 ###
 # Description: Script to move the glusterfs initial setup to bind mounted directories of Atomic Host.
-# Copyright (c) 2016 Red Hat, Inc. <http://www.redhat.com>
+# Copyright (c) 2016-2017 Red Hat, Inc. <http://www.redhat.com>
 #
 # This file is part of GlusterFS.
 #
@@ -62,7 +62,7 @@ main () {
         fi
         echo "Mount command Successful" >> $GLUSTERFS_LOG_CONT_DIR/mountfstab
         sleep 40
-        cut -f 2 -d " " $GLUSTERFS_CUSTOM_FSTAB | while read line
+        cat $GLUSTERFS_CUSTOM_FSTAB|cut -f 2 -d " " | while read line
         do
               if grep -qs "$line" /proc/mounts; then
                    echo "$line mounted." >> $GLUSTERFS_LOG_CONT_DIR/mountfstab
@@ -75,12 +75,12 @@ main () {
                          sleep 1
                    fi
               else
-		   grep $line $GLUSTERFS_CUSTOM_FSTAB >> $GLUSTERFS_LOG_CONT_DIR/failed_bricks
+		   cat $GLUSTERFS_CUSTOM_FSTAB|grep $line  >> $GLUSTERFS_LOG_CONT_DIR/failed_bricks
                    echo "$line not mounted." >> $GLUSTERFS_LOG_CONT_DIR/mountfstab
                    sleep 0.5
              fi
         done
-        if [ $(wc -l $GLUSTERFS_LOG_CONT_DIR/failed_bricks ) -gt 1 ]
+        if [ $(cat $GLUSTERFS_LOG_CONT_DIR/failed_bricks | wc -l) -gt 1 ]
         then
               vgscan --mknodes > $GLUSTERFS_LOG_CONT_DIR/vgscan_mknodes
               sleep 10

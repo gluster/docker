@@ -1,0 +1,10 @@
+[Unit]
+Description=Configure brick multiplexing in Gluster
+After=glusterd.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/sbin/gluster-brickmultiplex.sh
+
+[Install]
+WantedBy=multi-user.target

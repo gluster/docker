@@ -1,6 +1,6 @@
 [Unit]
 Description=Configuring GlusterFS in container
-Before=glusterd.service
+Before=rpcbind.service
 
 [Service]
 Type=oneshot

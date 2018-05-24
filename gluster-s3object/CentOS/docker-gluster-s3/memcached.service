@@ -1,9 +1,0 @@
-[Unit]
-Description=Memcached Service
-
-[Service]
-ExecStart=/usr/bin/memcached -u root
-Restart=on-abort
-
-[Install]
-WantedBy=multi-user.target

@@ -10,4 +10,6 @@ else
 	gswauth-prep -A http://0.0.0.0:8080/auth -K gswauthkey
         gswauth-add-account -K gswauthkey $S3_ACCOUNT
 	gswauth-add-user -K gswauthkey -a $S3_ACCOUNT $S3_USER $S3_PASSWORD
+	systemctl restart swift-proxy.service
+	systemctl restart swift-account.service
 fi
