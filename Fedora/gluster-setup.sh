@@ -91,7 +91,7 @@ main () {
   fi
 
   # Set core file location - format: core_<executable_name>.<pid>
-  echo '/var/log/glusterfs/core_%e.%p' | sudo tee /proc/sys/kernel/core_pattern
+  echo '/var/log/glusterfs/core_%e.%p' | tee /proc/sys/kernel/core_pattern
 
   echo "Script Ran Successfully"
   exit 0
