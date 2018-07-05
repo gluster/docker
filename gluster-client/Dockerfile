@@ -20,4 +20,7 @@ dnf --setopt=tsflags=nodocs -y install wget nfs-utils attr iputils iproute &&\
 dnf install -y glusterfs-fuse &&\
 dnf clean all
 
+# Directory for coredumps. Note,kernel.core_pattern must be configured as such
+RUN mkdir -p /var/log/core
+
 CMD ["/bin/bash"]

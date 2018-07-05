@@ -128,9 +128,24 @@ Number of Peers: 0
 
 -bash-4.3# gluster --version
 ~~~
+
 That’s it!
 
 Additional Ref# https://goo.gl/3031Mm
+
+##### Capturing coredumps
+
+/var/log/core directory is already added in the container.
+Coredumps can be configured to be generated under /var/log/core directory.
+
+User can copy the coredump(s) generated under /var/log/core/ directory
+from the container to the host.
+
+For example:
+~~~
+ssh <hostmachine>
+sysctl -w kernel.core_pattern=/var/log/core/core_%e.%p
+~~~
 
 ## Gluster Object Docker container:
 

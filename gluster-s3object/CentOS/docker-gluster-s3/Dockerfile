@@ -82,5 +82,8 @@ systemctl enable swift-container.service &&\
 systemctl enable swift-object.service &&\
 systemctl enable swift-adduser.service
 
+# Directory for coredumps. Note,kernel.core_pattern must be configured as such
+RUN mkdir -p /var/log/core
+
 ENTRYPOINT ["/usr/local/bin/update_gluster_vol.sh"]
 CMD ["/usr/sbin/init"]

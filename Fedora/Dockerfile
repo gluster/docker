@@ -59,7 +59,8 @@ RUN dnf -y update && \
     systemctl enable sshd.service && \
     systemctl enable gluster-setup.service && \
     systemctl enable gluster-brickmultiplex.service && \
-    systemctl enable glusterd.service
+    systemctl enable glusterd.service && \
+    mkdir -p /var/log/core;
 
 EXPOSE 2222 111 245 443 24006 24007 2049 8080 6010 6011 6012 38465 38466 38468 38469 49152 49153 49154 49156 49157 49158 49159 49160 49161 49162
 
