@@ -22,6 +22,8 @@ LABEL name="$REPO/$NAME" \
       maintainer="Jose A. Rivera <jarrpa@redhat.com>, Humble Chirammal <hchiramm@redhat.com>"
 
 VOLUME [ "/sys/fs/cgroup/" ]
+# It is recommended to use LVM for bricks, which may require loading kernel modules
+VOLUME [ "/usr/lib/modules" ]
 
 ADD https://github.com/gluster/gluster-containers/blob/master/README.md /README.md
 

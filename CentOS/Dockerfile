@@ -53,6 +53,9 @@ sed -i.save -e "s#udev_sync = 1#udev_sync = 0#" -e "s#udev_rules = 1#udev_rules 
 mkdir -p /var/log/core;
 
 VOLUME [ "/sys/fs/cgroup" ]
+# It is recommended to use LVM for bricks, which may require loading kernel modules
+VOLUME [ "/usr/lib/modules" ]
+
 ADD gluster-setup.service /etc/systemd/system/gluster-setup.service
 ADD gluster-setup.sh /usr/sbin/gluster-setup.sh
 ADD gluster-block-setup.service /etc/systemd/system/gluster-block-setup.service
