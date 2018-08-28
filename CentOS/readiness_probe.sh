@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# glusterd not active 
-if ! `systemctl -q is-active glusterd.service`; then
+if ! systemctl -q is-active glusterd.service; then
+   # glusterd not active
    exit 1
 fi
 
