@@ -59,12 +59,14 @@ ADD gluster-block-setup.service /etc/systemd/system/gluster-block-setup.service
 ADD gluster-block-setup.sh /usr/sbin/gluster-block-setup.sh
 ADD update-params.sh /usr/local/bin/update-params.sh
 ADD tcmu-runner-params /etc/sysconfig/tcmu-runner-params
+ADD readiness_probe.sh /usr/local/bin/readiness_probe.sh
 
 RUN chmod 644 /etc/systemd/system/gluster-setup.service && \
 chmod 500 /usr/sbin/gluster-setup.sh && \
 chmod 644 /etc/systemd/system/gluster-block-setup.service && \
 chmod 500 /usr/sbin/gluster-block-setup.sh && \
 chmod +x /usr/local/bin/update-params.sh && \
+chmod +x /usr/local/bin/readiness_probe.sh && \
 systemctl disable nfs-server.service && \
 systemctl mask getty.target && \
 systemctl enable gluster-setup.service && \
