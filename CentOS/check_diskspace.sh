@@ -4,7 +4,7 @@
 while true
 do
         # sleep early to get glusterd settled
-        sleep 120
+        sleep $1
         current_usage=$( df --output=pcent  '/var/lib/glusterd' | tail -n1  | awk {'print $1'} )
         max_usage=99%
         if [ "${current_usage%?}" -ge "${max_usage%?}" ]; then
