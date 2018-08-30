@@ -4,8 +4,8 @@ After=glusterd.service
 
 [Service]
 Type=simple
-Environment="POLL_INTERVAL=120"
-ExecStart=/usr/local/bin/check_diskspace.sh $POLL_INTERVAL
+Environment="DISK_CHK_POLL_INTERVAL=120"
+ExecStart=/usr/local/bin/check_diskspace.sh $DISK_CHK_POLL_INTERVAL
 
 [Install]
 WantedBy=multi-user.target
