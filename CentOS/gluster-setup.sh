@@ -58,12 +58,17 @@ main () {
 
         mount -a --fstab $GLUSTERFS_CUSTOM_FSTAB &> $GLUSTERFS_LOG_CONT_DIR/mountfstab
         sts=$?
-        if [ $sts -ne 0 ]
+        if [ $sts -eq 1 -o $sts -eq 2 -o $sts -eq 4 ]
         then
               echo "mount command exited with code ${sts}" >> $GLUSTERFS_LOG_CONT_DIR/mountfstab
               exit 1
         fi
-        echo "Mount command Successful" >> $GLUSTERFS_LOG_CONT_DIR/mountfstab
+	if [ $sts -ne 0 ]
+	then
+	      echo "mount command non-fatal error with ${sts}" >> $GLUSTERFS_LOG_CONT_DIR/mountfstab
+	else
+              echo "Mount command Successful" >> $GLUSTERFS_LOG_CONT_DIR/mountfstab
+	fi
         sleep 40
         cut -f 2 -d " " $GLUSTERFS_CUSTOM_FSTAB | while read -r line
         do
@@ -83,7 +88,7 @@ main () {
                    sleep 0.5
              fi
         done
-        if [ "$(wc -l $GLUSTERFS_LOG_CONT_DIR/failed_bricks )" -gt 1 ]
+        if [ "$((cat $GLUSTERFS_LOG_CONT_DIR/failed_bricks | wc -l) )" -gt 1 ]
         then
               vgscan --mknodes > $GLUSTERFS_LOG_CONT_DIR/vgscan_mknodes
               sleep 10
