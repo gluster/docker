@@ -1,4 +1,4 @@
-This repo contains dockerfiles (CentOS and Fedora) for GlusterFS containers namely server, client and S3.
+This repo contains dockerfiles (CentOS and Fedora) for GlusterFS containers namely server, client and object.
 
 
 The support matrix of GlusterFS and container versions:
@@ -8,7 +8,7 @@ The support matrix of GlusterFS and container versions:
 |----------------|-------------------------------|-----------------------------|------------------|
 |GlusterFS Server Container|`v4.0,  v3.13, v3.12, v3.10`            |`gluster4u0_centos7`,`gluster3u13_centos7`, `gluster3u12_centos7`, `gluster3u10_centos7` |            `gluster-centos`|
 |GlusterFS Client Container       |`v3.13`            |`latest`            |`glusterfs-client`
-|Gluster S3 Server Container         |`v4.0,  v3.13, v3.12, v3.10`|`latest`|`gluster-s3`
+|Gluster Object Server Container         |`v4.0,  v3.13, v3.12, v3.10`|`latest`|`gluster-object`
 
 
 ## Gluster Server Docker container:
@@ -149,12 +149,12 @@ sysctl -w kernel.core_pattern=/var/log/core/core_%e.%p
 
 ## Gluster Object Docker container:
 
-### To pull gluster-s3:
+### To pull gluster-object:
 ~~~
-$ docker pull gluster/gluster-s3
+$ docker pull gluster/gluster-object
 ~~~
 
-### To run gluster-s3 container:
+### To run gluster-object container:
 
 On the host machine, mount one or more gluster volumes under the directory
 `/mnt/gluster-object` with mountpoint name being same as that of the volume.
@@ -173,10 +173,10 @@ S3_ACCOUNT='tv1'
 Where tv1 is the volume name.
 
 ~~~
-$ docker run -d --privileged  -v /sys/fs/cgroup/:/sys/fs/cgroup/:ro -p 8080:8080 -v /mnt/gluster-object:/mnt/gluster-object -e S3_ACCOUNT="tv1" -e S3_USER="admin" -e S3_PASSWORD="redhat" gluster/gluster-s3
+$ docker run -d --privileged  -v /sys/fs/cgroup/:/sys/fs/cgroup/:ro -p 8080:8080 -v /mnt/gluster-object:/mnt/gluster-object -e S3_ACCOUNT="tv1" -e S3_USER="admin" -e S3_PASSWORD="redhat" gluster/gluster-object
 ~~~
 
-Now, We can get/put objects into the gluster volume, using the gluster-s3 Docker container.
+Now, We can get/put objects into the gluster volume, using the gluster-object Docker container.
 Refer this link[1] for testing.
 
 [1] https://github.com/gluster/gluster-swift/blob/master/doc/markdown/quick_start_guide.md#using_swift
