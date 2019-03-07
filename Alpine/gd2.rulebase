@@ -1,0 +1,19 @@
+version=2
+rule=:%{"name":"multilinegd2", "type":"repeat",
+    "parser":[
+               {"type":"char-sep", "name":"timekey", "extradata":"=\""},
+               {"type":"literal", "text":"=\""},
+               {"type":"char-sep", "name":"timevalue", "extradata":"\""},
+               {"type":"literal", "text":"\" "},
+               {"type":"char-sep", "name":"levelkey", "extradata":"="},
+               {"type":"literal", "text":"="},
+               {"type":"word", "name":"levelvalue"},
+               {"type":"literal", "text":" "},
+               {"type":"char-sep", "name":"msgkey", "extradata":"="},
+               {"type":"literal", "text":"="},
+               {"type":"char-sep", "name":"msgvalue", "extradata":"\n"},
+             ],
+    "while":[
+              {"type":"literal", "text":"\n"},
+            ]
+    }%
