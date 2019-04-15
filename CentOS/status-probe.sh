@@ -3,6 +3,9 @@
 # Return overall status of the glusterfs container
 #
 
+: ${GLUSTER_BLOCK_ENABLED:=1}
+: ${GLUSTER_BLOCKD_STATUS_PROBE_ENABLE:=1}
+
 require() {
     if ! "$@" ; then
         echo "failed check: $*" >&2
@@ -32,8 +35,8 @@ case "$mode" in
             echo "warning: no mode provided. Assuming liveness probe" >&2
         fi
         require systemctl -q is-active glusterd.service
-        
-        if [[ "$GLUSTER_BLOCKD_STATUS_PROBE_ENABLE" -eq 1 ]]; then
+
+        if [[ "$GLUSTER_BLOCK_ENABLED" -ne 0 ]] && [[ "$GLUSTER_BLOCKD_STATUS_PROBE_ENABLE" -eq 1 ]]; then
             require systemctl -q is-active gluster-blockd.service
         fi
 

@@ -4,6 +4,7 @@
 : ${GB_LOGDIR:=/var/log/glusterfs/gluster-block}
 : ${TCMU_LOGDIR:=/var/log/glusterfs/gluster-block}
 : ${GB_GLFS_LRU_COUNT:=15}
+: ${GLUSTER_BLOCK_ENABLED:=1}
 : ${HOST_DEV_DIR:=/mnt/host-dev}
 : ${CGROUP_PIDS_MAX:=max}
 
@@ -32,15 +33,24 @@ then
   set_cgroup_pids ${CGROUP_PIDS_MAX}
 fi
 
-echo "env variable is set. Update in gluster-blockd.service"
-#FIXME To update in environment file
-sed -i '/GB_GLFS_LRU_COUNT=/s/GB_GLFS_LRU_COUNT=.*/'GB_GLFS_LRU_COUNT="$GB_GLFS_LRU_COUNT"\"'/'  /usr/lib/systemd/system/gluster-blockd.service
-sed -i '/EnvironmentFile/i Environment="GB_LOGDIR='$GB_LOGDIR'"' /usr/lib/systemd/system/gluster-blockd.service
+if [ "$GLUSTER_BLOCK_ENABLED" == 1 ]; then
+        echo "Enabling gluster-block service and updating env. variables"
+        systemctl enable gluster-block-setup.service
+        systemctl enable gluster-blockd.service
 
-sed -i "s#TCMU_LOGDIR=.*#TCMU_LOGDIR='$TCMU_LOGDIR'#g" /etc/sysconfig/tcmu-runner-params
+        #FIXME To update in environment file
+        sed -i '/GB_GLFS_LRU_COUNT=/s/GB_GLFS_LRU_COUNT=.*/'GB_GLFS_LRU_COUNT="$GB_GLFS_LRU_COUNT"\"'/'  /usr/lib/systemd/system/gluster-blockd.service
+        sed -i '/EnvironmentFile/i Environment="GB_LOGDIR='$GB_LOGDIR'"' /usr/lib/systemd/system/gluster-blockd.service
 
-sed -i '/ExecStart/i EnvironmentFile=-/etc/sysconfig/tcmu-runner-params' /usr/lib/systemd/system/tcmu-runner.service
-sed -i  '/tcmu-log-dir=/s/tcmu-log-dir.*/tcmu-log-dir $TCMU_LOGDIR/' /usr/lib/systemd/system/tcmu-runner.service
+        sed -i "s#TCMU_LOGDIR=.*#TCMU_LOGDIR='$TCMU_LOGDIR'#g" /etc/sysconfig/tcmu-runner-params
+
+        sed -i '/ExecStart/i EnvironmentFile=-/etc/sysconfig/tcmu-runner-params' /usr/lib/systemd/system/tcmu-runner.service
+        sed -i  '/tcmu-log-dir=/s/tcmu-log-dir.*/tcmu-log-dir $TCMU_LOGDIR/' /usr/lib/systemd/system/tcmu-runner.service
+else
+        echo "Disabling gluster-block service"
+        systemctl disable gluster-block-setup.service
+        systemctl disable gluster-blockd.service
+fi
 
 if [ -c "${HOST_DEV_DIR}/zero" ] && [ -c "${HOST_DEV_DIR}/null" ]; then
     # looks like an alternate "host dev" has been provided

@@ -1,5 +1,20 @@
 This dockerfile can be used to build a CentOS Gluster Container.
 
+# Readiness and liveness probes
+
+The container contains a script at `/usr/local/bin/status-probe.sh` that can be
+used to check the status of the services. The script can be called with
+`readiness` or `liveness` as argument.
+
+# Enabling/Disabling gluster-block
+
+Gluster Block is an optional service that can be used to provide
+PersistentVolumes of type=Block. Not everyone needs this functionality, and on
+some distributions the dependencies (in the kernel) might be missing. It is
+possible to disable the Gluster Block service by exporting the
+`GLUSTER_BLOCK_ENABLED` environment variable set to `"0"`. By default the
+environment variable will be set to `"1"` so that the service is enabled.
+
 # Support for fake disks
 
 This container offers several configuration options that make it easier to test

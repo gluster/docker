@@ -117,8 +117,6 @@ systemctl disable nfs-server.service && \
 systemctl mask getty.target && \
 systemctl enable gluster-fake-disk.service && \
 systemctl enable gluster-setup.service && \
-systemctl enable gluster-block-setup.service && \
-systemctl enable gluster-blockd.service && \
 systemctl enable glusterd.service && \
 systemctl enable gluster-check-diskspace.service
 
