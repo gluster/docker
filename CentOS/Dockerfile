@@ -90,8 +90,6 @@ RUN true \
     && systemctl mask dm-event.service \
     && systemctl disable dm-event.socket \
     && systemctl mask dm-event.socket \
-    && systemctl disable lvm2-monitor.service \
-    && systemctl mask lvm2-monitor.service \
     && sed -i 's/^\smonitoring\s*=\s*1/monitoring = 0/' /etc/lvm/lvm.conf \
     && true
 
