@@ -1,6 +1,15 @@
+# Gluster-Containers
+
 This repo contains dockerfiles (CentOS and Fedora) for GlusterFS containers namely server, client and S3.
 
+- [Gluster-Containers](#gluster-containers)
+  - [Gluster Server Docker Containers](#gluster-server-docker-container)
+    - [CentOS](#centos)
+    - [Fedora](#fedora)
+  - [Gluster Object Docker Containers](#gluster-object-docker-container)
+  - [Other solutions](#other-solutions)
 
+----
 The support matrix of GlusterFS and container versions:
 
 
@@ -181,4 +190,16 @@ Refer this link[1] for testing.
 
 [1] https://github.com/gluster/gluster-swift/blob/master/doc/markdown/quick_start_guide.md#using_swift
 
+
+## Other solutions
+
+As glusterfs fitted naturally to run as a container, and provide storage,
+there are other approaches being worked on. In this section lets look into
+different solutions to use gluster containers.
+
+### Kadalu Operator/CSI driver
+
+[Kadalu project](https://github.com/kadalu/kadalu) provides storage through
+glusterfs in kubernetes eco-system. It provides its own operator and CSI drivers
+to consume glusterfs, and has glusterfs server packaged as container.
 
