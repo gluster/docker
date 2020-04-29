@@ -69,6 +69,9 @@ RUN dnf -y update && \
 RUN true \
     && systemctl mask getty.target \
     && systemctl mask systemd-journal-flush.service \
+    && systemctl mask systemd-journald.service \
+    && systemctl mask systemd-journald.socket \
+    && systemctl mask systemd-logind.service \
     && systemctl mask rpcbind.socket \
     && true
 
