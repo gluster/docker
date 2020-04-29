@@ -31,9 +31,8 @@ COPY fake-disk.sh /usr/libexec/gluster/fake-disk.sh
 
 RUN dnf -y update && \
     sed -i "s/LANG/\#LANG/g" /etc/locale.conf && \
-    dnf -y install systemd-udev glusterfs-server dbus-python nfs-utils attr iputils iproute glusterfs-geo-replication openssh-server openssh-clients cronie tar rsync sos xfsprogs && \
+    dnf -y install systemd-udev glusterfs-server dbus-python nfs-utils attr iputils iproute glusterfs-geo-replication cronie tar rsync sos xfsprogs && \
     dnf clean all && \
-    sed -i '/Port 22/c\Port 2222' /etc/ssh/sshd_config && \
     sed -i 's/Requires\=rpcbind\.service//g' /usr/lib/systemd/system/glusterd.service && \
     sed -i 's/rpcbind\.service/gluster-setup\.service/g' /usr/lib/systemd/system/glusterd.service && \
     sed -i.save -e "s#udev_sync = 1#udev_sync = 0#" -e "s#udev_rules = 1#udev_rules = 0#" -e "s#use_lvmetad = 1#use_lvmetad = 0#" -e "s#obtain_device_list_from_udev = 1#obtain_device_list_from_udev = 0#" /etc/lvm/lvm.conf && \
@@ -58,7 +57,6 @@ RUN dnf -y update && \
     systemctl disable systemd-udevd.service && \
     systemctl disable nfs-server.service && \
     systemctl enable rpcbind.service && \
-    systemctl enable sshd.service && \
     systemctl enable gluster-fake-disk.service && \
     systemctl enable gluster-setup.service && \
     systemctl enable gluster-brickmultiplex.service && \
@@ -72,6 +70,6 @@ RUN true \
     && systemctl mask rpcbind.socket \
     && true
 
-EXPOSE 2222 111 245 443 24006 24007 2049 8080 6010 6011 6012 38465 38466 38468 38469 49152 49153 49154 49156 49157 49158 49159 49160 49161 49162
+EXPOSE 111 245 443 24006 24007 2049 8080 6010 6011 6012 38465 38466 38468 38469 49152 49153 49154 49156 49157 49158 49159 49160 49161 49162
 
 CMD ["/usr/sbin/init"]

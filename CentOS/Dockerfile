@@ -28,8 +28,6 @@ yum --setopt=tsflags=nodocs -y install nfs-utils && \
 yum --setopt=tsflags=nodocs -y install attr  && \
 yum --setopt=tsflags=nodocs -y install iputils  && \
 yum --setopt=tsflags=nodocs -y install iproute  && \
-yum --setopt=tsflags=nodocs -y install openssh-server  && \
-yum --setopt=tsflags=nodocs -y install openssh-clients  && \
 yum --setopt=tsflags=nodocs -y install rsync  && \
 yum --setopt=tsflags=nodocs -y install tar  && \
 yum --setopt=tsflags=nodocs -y install cronie  && \
@@ -39,7 +37,6 @@ yum --setopt=tsflags=nodocs -y install glusterfs-server  && \
 yum --setopt=tsflags=nodocs -y install glusterfs-rdma  && \
 yum --setopt=tsflags=nodocs -y install gluster-block  && \
 yum --setopt=tsflags=nodocs -y install glusterfs-geo-replication && yum clean all && \
-sed -i '/Port 22/c\Port 2222' /etc/ssh/sshd_config && \
 sed -i 's/Requires\=rpcbind\.service//g' /usr/lib/systemd/system/glusterd.service && \
 sed -i 's/rpcbind\.service/gluster-setup\.service/g' /usr/lib/systemd/system/glusterd.service && \
 sed -i 's/rpcbind\.service//g' /usr/lib/systemd/system/gluster-blockd.service && \
@@ -119,7 +116,7 @@ systemctl enable gluster-blockd.service && \
 systemctl enable glusterd.service && \
 systemctl enable gluster-check-diskspace.service
 
-EXPOSE 2222 111 245 443 24007 2049 8080 6010 6011 6012 38465 38466 38468 38469 49152 49153 49154 49156 49157 49158 49159 49160 49161 49162
+EXPOSE 111 245 443 24007 2049 8080 6010 6011 6012 38465 38466 38468 38469 49152 49153 49154 49156 49157 49158 49159 49160 49161 49162
 
 ENTRYPOINT ["/usr/local/bin/update-params.sh"]
 CMD ["/usr/sbin/init"]
