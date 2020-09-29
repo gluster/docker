@@ -21,10 +21,19 @@ main () {
 
   GLUSTER_BRICKMULTIPLEX=${GLUSTER_BRICKMULTIPLEX-yes}
 
+  # initialize the log file
+  > $GLUSTERFS_LOG_CONT_DIR/brickmultiplexing
+
+  GLUSTER_BRICKMULTIPLEX_SETTING="$( \
+      gluster --mode=script volume get all cluster.brick-multiplex \
+      | grep '^cluster.brick-multiplex' \
+      | awk '{print $2}')"
+
+  echo "current cluster brick-multiplexing setting: ${GLUSTER_BRICKMULTIPLEX_SETTING}" >> $GLUSTERFS_LOG_CONT_DIR/brickmultiplexing
+
   case "$GLUSTER_BRICKMULTIPLEX" in
     [nN] | [nN][Oo] )
-      gluster v info | grep 'cluster.brick-multiplex: off' > $GLUSTERFS_LOG_CONT_DIR/brickmultiplexing
-      if [[ ${?} == 0 ]]; then
+      if [[ "${GLUSTER_BRICKMULTIPLEX_SETTING}" == "disable" ]]; then
         echo "cluster brick-multiplexing already disabled." >> $GLUSTERFS_LOG_CONT_DIR/brickmultiplexing
         exit 0
       fi
@@ -45,8 +54,7 @@ main () {
       exit 0
       ;;
     [yY] | [yY][Ee][Ss] )
-      gluster v info | grep 'cluster.brick-multiplex: on' > $GLUSTERFS_LOG_CONT_DIR/brickmultiplexing
-      if [[ ${?} == 0 ]]; then
+      if [[ "${GLUSTER_BRICKMULTIPLEX_SETTING}" == "on" ]]; then
         echo "cluster brick-multiplexing already set." >> $GLUSTERFS_LOG_CONT_DIR/brickmultiplexing
         exit 0
       fi
