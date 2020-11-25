@@ -1,10 +1,11 @@
 #!/bin/bash
 
+DISK_CHK_POLL_INTERVAL=${DISK_CHK_POLL_INTERVAL:-120}
 # Disk full
 while true
 do
         # sleep early to get glusterd settled
-        sleep 120
+        sleep $DISK_CHK_POLL_INTERVAL
         current_usage=$( df --output=pcent  '/var/lib/glusterd' | tail -n1  | awk {'print $1'} )
         max_usage=99%
         if [ "${current_usage%?}" -ge "${max_usage%?}" ]; then
