@@ -119,7 +119,20 @@ systemctl enable gluster-blockd.service && \
 systemctl enable glusterd.service && \
 systemctl enable gluster-check-diskspace.service
 
-EXPOSE 2222 111 245 443 24007 2049 8080 6010 6011 6012 38465 38466 38468 38469 49152 49153 49154 49156 49157 49158 49159 49160 49161 49162
+COPY tendrl/tendrl-release-epel-7.repo  \
+tendrl/tendrl-dependencies-epel-7.repo \
+/etc/yum.repos.d/
+
+RUN yum --setopt=tsflags=nodocs -y install epel-release; \
+yum --setopt=tsflags=nodocs -y install tendrl-node-agent tendrl-collectd-selinux  tendrl-selinux; \
+yum --setopt=tsflags=nodocs -y install tendrl-gluster-integration.noarch; \
+yum clean all; \
+sed -i.bak '/^etcd_connection/s/:.*/:\ tendrlserver/' /etc/tendrl/node-agent/node-agent.conf.yaml; \
+sed -i.bak '/^graphite_host/s/:.*/:\ tendrlserver/' /etc/tendrl/node-agent/node-agent.conf.yaml; \
+sed -i.bak '/^SELINUX\b/s/=.*/=permissive/'  /etc/selinux/config; \
+systemctl enable tendrl-node-agent
+
+EXPOSE 2222 111 245 443 24007 2049 8080 6010 6011 6012 38465 38466 38468 38469 49152 49153 49154 49156 49157 49158 49159 49160 49161 49162 2379 2003
 
 ENTRYPOINT ["/usr/local/bin/update-params.sh"]
 CMD ["/usr/sbin/init"]

@@ -1,0 +1,10 @@
+[tendrl-release]
+name=Copr repo for release owned by tendrl
+baseurl=https://copr-be.cloud.fedoraproject.org/results/tendrl/release/epel-7-$basearch/
+type=rpm-md
+skip_if_unavailable=True
+gpgcheck=1
+gpgkey=https://copr-be.cloud.fedoraproject.org/results/tendrl/release/pubkey.gpg
+repo_gpgcheck=0
+enabled=1
+enabled_metadata=1
